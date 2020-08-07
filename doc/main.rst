@@ -255,9 +255,6 @@ For **container/kubernetes**: Run the commands above in the ``Dockerfile``.
 Set the CMD to ``. /opt/venv/bin/activate && exec python myapp.py``
 
 Warning: **Python does not support ``alpine`` linux**, gotta stick to a classic ubuntu/debian/centos image.
-Python is compiled for glibc only, alpine is based on ``musl`` not ``glibc``.
-Remember the prebuilt packages named ``manylinux``, that means linux derivatives with glibc.
-https://www.python.org/dev/peps/pep-0571/
 
 Advanced Usage
 ==============
@@ -536,8 +533,8 @@ to compile stuff on the fly during installation.
 I've often found that this implicitely requires the full build chain on the system, a good starting point is
 ``build-essentials gcc g++ make automake``. Go from there and google any error message.
 
-Entreprise Usage
-================
+Specials
+========
 
 Proxy
 -----
@@ -546,10 +543,13 @@ https://pip.pypa.io/en/stable/reference/pip_install/
 
 pip requires internet access to download packages. It's possible to specify a proxy:
 
-export http_proxy=https://proxy.example.com:8443
-export https_proxy=https://proxy.example.com:8443
+.. code-block:: bash
 
-Note that the environment variables are case sensitive in some circumstances, the correct case is lowercase.
+    export http_proxy=https://proxy.example.com:8443
+    export https_proxy=https://proxy.example.com:8443
+
+Note that the environment variables are case sensitive on some systems,
+the correct case is **lowercase**.
 
 Internal Repo
 -------------
@@ -560,21 +560,44 @@ pip can download packages from an internal repo instead instead of https://pypi.
 
 The usual commercial tools can store python packages: Artifactory, Nexus, GitLab, etc...
 
-Download packages in a specific location
-----------------------------------------
+Download a package in a specific location
+-----------------------------------------
 
 .. code-block:: bash
 
     # To setup the package in a specific location (include all dependencies by default)
     ``pip install --target=mypackages requests``
 
+.. code-block:: bash
+
     # Don't setup dependencies.
     ``pip install --target=mypackages --no-deps requests``
 
-    # Download the package
+.. code-block:: bash
+
+    # Download the package (zip archive or equivalent)
     ``pip install --target=mydownloads requests``
 
+Alpine Linux is not supported
+-----------------------------
 
+Warning: **Python does not support ``alpine`` linux**,
+a light Linux distribution commonly used by containers to save a few MB on the generated image.
+Stick to a traditional debian/ubuntu/centos image when using containers (kubernetes).
+
+Why? Python binaries are compiled for ``glibc``, while alpine is based on ``musl`` not ``glibc``.
+Remember the tag ``manylinux`` in pip packages, that's a build specification around Linux and glibc.
+https://www.python.org/dev/peps/pep-0571/
+https://github.com/pypa/manylinux
+
+musl is an independant implementation of the libc
+(the C base library, providing ``printf()`` ``strlen()`` ``time()`` ``malloc()`` etc...).
+It's close enough from the glibc ABI/API for a compiled executable to load and run
+(rather than crash outright),
+but it's different enough to have different results with awful consequences,
+like the python interpreter being twice as slow or subtle memory corruptions
+(malloc() is highly implementation specific and the glibc one is very optimized for performance).
+https://superuser.com/questions/1219609/why-is-the-alpine-docker-image-over-50-slower-than-the-ubuntu-image
 
 Note on ``venv`` vs ``virtualenv``
 ----------------------------------
