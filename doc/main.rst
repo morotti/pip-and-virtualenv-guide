@@ -1,43 +1,43 @@
-======================================================================
-The Ultimate Guide to Run and Package Python Software (pip + venv)
-======================================================================
+====================================================================
+The Definitive Guide To Run and Package Python Software (pip + venv)
+====================================================================
 
-.. toctree::
-   :maxdepth: 3
+.. contents:: Table of Contents
+    :depth: 2
 
 Introduction
 ============
 
-This guide will explain how to do setup, package and deploy Python applications,
+This guide will explain how to run, package and deploy Python applications,
 using the standard python tools: ``pip` and ``venv``.
 
 What does it take to run a python application?
 
 * An application
-* Python libraries (dependencies)
 * A Python interpreter
+* Python libraries (dependencies)
 
-The guide aims to be comprehensive, covering simple usage
-(90% of applications can be handled by a handful of commands and a requirements.txt to specify dependencies)
-all the way to advanced usage (90% of entreprise have restricted internet access),
-explaining in details how things work along the way.
+The guide aims to be comprehensive, from basic usage to advanced usage,
+explaining what's going on under the hoods in great details.
+
+90% of application development can be handled by a pair of commands and a requirements.txt
+(to specify dependencies),
+while the other 10% of entreprise development must deal with additional constraints.
 
 Using Python Effectively
 ========================
 
-Hello World
------------
+Sample Software
+---------------
 
-Below are a couple of hello world, of increasinyg complexity, that you will learn to deploy.
-
-.. code-block:: python
-
-    # standalone trivial script with no dependency
-    print("Hello world)
+Here's a sample software that we will learn to run and repackage.
 
 .. code-block:: python
 
     # a simple tornado web server
+    import tornado.web
+    import tornado.ioloop
+
     class MainHandler(tornado.web.RequestHandler):
         def get(self):
             self.write("Hello World")
@@ -47,7 +47,7 @@ Below are a couple of hello world, of increasinyg complexity, that you will lear
             (r"/", MainHandler),
         ])
 
-    def main()
+    def main():
         app = make_app()
         app.listen(8888)
         tornado.ioloop.IOLoop.current().start()
@@ -55,37 +55,44 @@ Below are a couple of hello world, of increasinyg complexity, that you will lear
     if __name__ == "__main__":
         main()
 
+.. code-block:: python
+
+    # standalone trivial script with no dependency
+    import sys
+    print(sys.version)
+
 How to run a script locally?
 ----------------------------
 
 Assuming the system has an interpreter available in ``/usr/bin/python3``
 
-A "trivial" standalone script can run easily: `/usr/bin/python3 hello.py`
+A "trivial" standalone script can run easily: ``/usr/bin/python3 hello.py``
 
-A "complex" application will fail (with missing dependencies): `/usr/bin/python3 server.py`
+A "complex" application will fail (with missing dependencies): ``/usr/bin/python3 server.py``
 
 How to run a complex application locally? (with dependencies)
 -------------------------------------------------------------
 
-At the top of the project:
+At the top of the project, assuming the source code is in ``src``:
 
 #. /usr/bin/python3 -m venv env
 #. source ./env/bin/activate
 #. cd env
 #. pip install wheel
 #. pip install tornadoweb
-#. chmod +d server.py
-#. python3 ./server.py
+#. chmod +x src/server.py
+#. python3 src/server.py
 
-Well, that was simple.
+Well, that was simple. This setup a virtual environment, installed two libraries and run.
 
-Now, let's explained what's actually happening.
+Now, let's explain what this does.
 
 Virtual Environment (venv)
 --------------------------
 
-``venv`` creates a virtual environment. A regular directory, containing a python
-interpreter (copied), libraries dependencies (soon to be installed with pip) and the application.
+``venv`` creates a virtual environment.
+A virtual environment is a norma directory, containing a python
+interpreter (copied), libraries (soon to be installed with pip) and the application.
 
 That's how python projects are organized. Each project in a dedicated directory
 , with its own source code and dependencies and interpreter.
@@ -94,7 +101,7 @@ That's how python projects are organized. Each project in a dedicated directory
 the directory of the same name
 (``./env/bin/activate.bat`` on Windows).
 Calling ``python --version`` runs the local interpreter and calling ``pip install tornadoweb`` installs
-the package locally in the subdirectory (usually under `lib` but name may vary).
+the package locally in the subdirectory (usually under ``lib`` but name may vary).
 
 There are no conflicts of versions or DLL (the need for Docker is a myth!).
 If it were not for this, there would be a system wide interpreter /usr/bin/python
@@ -170,13 +177,14 @@ Run:
 #. source ./env/bin/activate
 #. cd env
 #. pip install requirements.txt
-#. cd src
-#. python3 myapp.py
+#. python3 src/myapp.py
+
+It's quite straightforward really.
 
 How does the virtual environment work?
 --------------------------------------
 
-It's quite straightforward actually. Calling env/bin/active simply configures some environment variables.
+It's fairly simple, calling env/bin/active sets some environment variables.
 https://docs.python.org/3/using/cmdline.html#environment-variables
 
 .. code-block:: bash
@@ -184,9 +192,10 @@ https://docs.python.org/3/using/cmdline.html#environment-variables
     VIRTUAL_ENV="/home/user/env"
     PATH="/home/user/env/bin:/usr/local/sbin:/usr/local/bin:..."
 
-Alright the virtual environment sets the virtual environment variable, that's kind of a circulation explanation. ^^
+Alright, the virtual environment sets the virtual environment variable,
+that's a bit of a circular explanation. ^^
 
-Let's run in a different ways.
+Let's run in a different way.
 
 .. code-block:: bash
 
@@ -196,11 +205,13 @@ Let's run in a different ways.
     import requests
     requests.__version__
 
-Python looks up import location based on  ``PYTHONPATH``.
-PYTHONPATH is a list of python source directories separated by a colon (semi colon on Windows).
+Python looks for the import based on the ``PYTHONPATH``.
+PYTHONPATH is a list of python source directories separated by a colon (semicolon on Windows).
 It's like ``PATH`` for the shell.
-The virtual environment is a bit of abstraction around that
-and it also copies the interpreter (see ``env/bin/python[.exe]``).
+
+The virtual environment is a bit of abstraction around that,
+it's autoconfigured for its location and it also copies a python interpreter
+(see ``env/bin/python[.exe]``).
 
 How to deploy the application? (for server distribution)
 --------------------------------------------------------
