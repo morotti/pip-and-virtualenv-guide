@@ -9,7 +9,7 @@ Introduction
 ============
 
 This guide will explain how to run, package and deploy Python applications,
-using the standard python tools: ``pip` and ``venv``.
+using the standard python tools: ``pip`` and ``venv``.
 
 What does it take to run a python application?
 
