@@ -219,9 +219,9 @@ How to deploy the application? (for server distribution)
 The application source code -with the requirements.txt- is self-contained.
 It is ready to deploy and run anywhere as long as there is a python interpreter and pip available.
 
-**Setup**: ``/usr/bin/python3 -m venv env && source ./env/bin/activate && cd env && pip install requirements.txt``
+**First Time Setup**: ``/usr/bin/python3 -m venv env && source ./env/bin/activate && cd env && pip install requirements.txt``
 
-**Run**: ``source ./env/bin/activate && python3 myapp/main.py`` ()
+**Run**: ``source ./env/bin/activate && python3 myapp/main.py``
 
 **Warning**: Directly calling the interpreter (``/path/to/python3 myapp/main.py``)
 -without sourcing the environment- can work because the venv interpreter
