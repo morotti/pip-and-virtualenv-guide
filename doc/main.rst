@@ -117,7 +117,7 @@ pip is the tools to retrieve and manage dependencies in python.
 Packages are obtained from pypi, the main python package repository https://pypi.org/project/tornado/
 
 ``pip install tornadoweb`` will retrieve and setup the package, as well as any dependency.
-Can do``pip install tornadoweb==6.0.4`` to get a specific version.
+Can do ``pip install tornadoweb==6.0.4`` to get a specific version.
 Libraries are store in a ``lib`` subdirectory (name may vary).
 
 pip will automatically retrieve a version that works for the current
