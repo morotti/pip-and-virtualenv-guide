@@ -494,9 +494,9 @@ Funfact: The world runs on C software. All the current operating systems, Linux 
 entirely made in C and exposing C API.
 
 There are some great languages and ecosystems built atop (python, java, ruby, PHP, etc..) yet things
-eventually comes down to C when it's time to interface with the system
+eventually come down to C to interface with the system
 (or reuse one of the existing 1 trillion library).
-Python packages are no exception, many packages rely on embedded C pieces and/or links to system libraries.
+Python packages are no exception, many packages rely on embedded C code or system specific syscalls.
 https://www.geoffchappell.com/studies/windows/win32/kernel32/api/index.htm
 
 Some examples of packages downloaded with ``pip install <name>``:
@@ -534,7 +534,7 @@ unlike Linux distributions that are a lose blob of random packages constantly ch
 Last but not least, the most hardcore packages in my experience, are those trying
 to compile stuff on the fly during installation.
 I've often found that this implicitely requires the full build chain on the system, a good starting point is
-`build-essentials gcc g++ make automake``. Go from there and google any error message.
+``build-essentials gcc g++ make automake``. Go from there and google any error message.
 
 Entreprise Usage
 ================
@@ -586,7 +586,7 @@ The only notable usage is ``python3 -m virtualenv --python=python3.6 myenv``
 which creates an environment using the given python interpreter (here it will look
 for a binary ``python3.6`` on the system).
 
-It's the same as ``/usr/bin/python3.6` -m venv` (venv creates the environment using
+It's the same as ``/usr/bin/python3.6 -m venv`` (venv creates the environment using
 the current interpreter).
 
 About
