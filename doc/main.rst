@@ -1,9 +1,9 @@
-====================================================================
-The Definitive Guide To Run and Package Python Software (pip + venv)
-====================================================================
+=======================================================
+The Definitive Guide To Run and Package Python Software
+=======================================================
 
 .. contents:: Table of Contents
-    :depth: 2
+    :depth: 3
 
 Introduction
 ============
@@ -574,6 +574,8 @@ Download packages in a specific location
     # Download the package
     ``pip install --target=mydownloads requests``
 
+
+
 Note on ``venv`` vs ``virtualenv``
 ----------------------------------
 
@@ -595,7 +597,8 @@ Contributions
 
 This documentation is stored on GitHub and automatically hosted on ReadTheDocs.
 
-Send fix and bug report to GitHub. Send discussion and feedback to Hacker News / Reddit.
+Send fix and bug report to GitHub (see ``Edit on GitHub`` button in the top right corner).
+Send discussion and feedback to Hacker News / Reddit.
 
 Welcome:
 
