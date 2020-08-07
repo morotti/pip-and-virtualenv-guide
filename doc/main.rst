@@ -626,7 +626,3 @@ Change Log
 
       gtag('config', 'UA-174952017-1');
     </script>
-
-.. raw:: html
-
-    <p>raw html is here</p>
